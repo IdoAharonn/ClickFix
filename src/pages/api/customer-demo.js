@@ -58,7 +58,17 @@ export default function handler(req, res) {
   
     }
 
-    if (req.method === 'DELETE') {}
+    if (req.method === 'DELETE') {
+      
+            const { id } = req.body;  // נניח שה-ID מגיע בבקשה
+        
+            // מסנן את האריי ומחזיר רק את האובייקטים שאין להם את ה-ID הזה
+            x = x.filter(item => item.id !== id);
+        
+            return res.status(200).json(x);  // מחזירים את האריי אחרי המחיקה
+        
+        
+    }
 
 
 }
