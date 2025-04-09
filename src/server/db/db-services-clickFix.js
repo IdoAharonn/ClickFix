@@ -92,10 +92,10 @@ export async function createCustomer(customer) {
         CustomerModel = mongoose.model('customers'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        CustomerModel = mongoose.model('customers',customerScheme);
+        QueueModel = mongoose.model('queues',queueScheme);
     }
-    const newCustomersItem = new CustomerModel(customer);
-    const newItem = await newCustomersItem.save();
+    const newQueuesItem = new QueueModel(queue);
+    const newItem = await newQueuesItem.save();
     return newItem;
 }
 
@@ -143,6 +143,91 @@ export const deleteCustomer = async(id) =>{
         CustomerModel = mongoose.model('customers', {});
     }
     const toDelete = await CustomerModel.findById(id);
+    await toDelete.deleteOne();
+
+    // return {success: true};
+}
+
+
+
+
+
+
+
+export const getQueue = async (id) =>{
+    connect2sDB();
+    let QueueModel;
+    try {
+        QueueModel = mongoose.model('queue'); // Try to access the model
+    } catch (err) {
+        // If the model doesn't exist, create it
+        QueueModel = mongoose.model('queue', {});
+    }
+    return await QueueModel.findById(id);
+}
+
+
+
+export async function createqueue(queue) {
+    connect2sDB();
+    let customerScheme =  mongoose.Schema({}, { strict: false });
+
+    let QueueModel;
+    try {
+        QueueModel = mongoose.model('queue'); // Try to access the model
+    } catch (err) {
+        // If the model doesn't exist, create it
+        QueueModel = mongoose.model('queue',queueScheme);
+    }
+    const newQueueItem = new QueueModel(queue);
+    const newItem = await newQueueItem.save();
+    return newItem;
+}
+
+export const updateQueue = async (queue) => {
+    connect2sDB();
+    console.log("queue = ", queue);
+
+    let QueueModel;
+    try {
+        QueueModel = mongoose.model('queue'); // Try to access the model
+    } catch (err) {
+        // If the model doesn't exist, create it
+        QueueModel = mongoose.model('queue', {});
+    }
+
+   
+    try {
+        const result = await QueueModel.findOneAndUpdate(
+            { _id: queue._id }, // Find by ID
+            { $set: queue } ,// Use $set to update the fields
+            { new: true }
+        );
+
+        if (result.nModified === 0) {
+            throw new Error('queue not found or no changes made');
+        }
+
+        return result;
+    } catch (error) {
+        console.error('Error updating queue:', error);
+        throw error;
+    }
+}
+
+export const deleteQueue = async(id) =>{
+    connect2sDB();
+
+    console.log("id = ", id)
+
+    let QueueModel;
+    try {
+        QueueModel = mongoose.model('queue'); // Try to access the model
+    } catch (err) {
+        // If the model doesn't exist, create it
+        QueueModel = mongoose.model('queue', {});
+    }
+    const toDelete = await QueueModel.findById(id);
     await toDelete.deleteOne();
 
     // return {success: true};
