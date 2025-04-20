@@ -1,4 +1,4 @@
-import { getAllWorkers,createWorkers,updateWorkers,deleteWorkers } from "@/server/db/db-services-clickFix";
+import { getAllWorkers,createWorker,updateWorker,deleteWorker } from "@/server/db/db-services-clickFix";
 /**
  * 
  * תבנית ללקוח  
@@ -25,21 +25,21 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const data = await createWorkers(req.body);
+    const data = await createWorker(req.body);
 
     res.status(200).json(data);
   }
 
   if (req.method === 'PUT') {
 
-    const data = await updateWorkers(req.body);
+    const data = await updateWorker(req.body);
 
     res.status(200).json(data);
   }
   if (req.method === 'DELETE') {
 
     console.log("req.body ", req.body)
-    const data = deleteWorkers(req.body);
+    const data = deleteWorker(req.body);
     res.status(200).json(data);
   }
 

@@ -1,4 +1,4 @@
-import { getAllBusinesses,createBusinesses,updateBusinesses,deleteBusinesses } from "@/server/db/db-services-clickFix";
+import { getAllBusinesses,createBusiness,updateBusiness,deleteBusiness } from "@/server/db/db-services-clickFix";
 /**
  * 
  * תבנית ללקוח  
@@ -29,21 +29,21 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const data = await createBusinesses(req.body);
+    const data = await createBusiness(req.body);
 
     res.status(200).json(data);
   }
 
   if (req.method === 'PUT') {
 
-    const data = await updateBusinesses(req.body);
+    const data = await updateBusiness(req.body);
 
     res.status(200).json(data);
   }
   if (req.method === 'DELETE') {
 
     console.log("req.body ", req.body)
-    const data = deleteBusinesses(req.body);
+    const data = deleteBusiness(req.body);
     res.status(200).json(data);
   }
 

@@ -1,11 +1,11 @@
-import { getAllQueue,createQueue,updateQueue,deleteQueue } from "@/server/db/db-services-clickFix";
+import { getAllQueue,createQueue,updateQueue,deleteQueue, getAllQueues } from "@/server/db/db-services-clickFix";
 /**
  * 
  * תבנית ללקוח  
   {
   
    
-   id:211394481,
+  
    queueType:"haircut",
    workerId:7221,
    custumerId:211394481,
@@ -24,7 +24,7 @@ import { getAllQueue,createQueue,updateQueue,deleteQueue } from "@/server/db/db-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
 
-    const data = await getAllQueue();
+    const data = await getAllQueues();
     // console.log("data - " , data);
 
     res.status(200).json(data);
