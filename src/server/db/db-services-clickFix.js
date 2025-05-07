@@ -58,11 +58,13 @@ export const getAllCustomers = async () =>{
 
     connect2sDB();
     let CustomerModel;
+    let customerScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         CustomerModel = mongoose.model('customer'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        CustomerModel = mongoose.model('customer', {});
+        CustomerModel = mongoose.model('customer', customerScheme);
     }
     const data = await CustomerModel.find();
     // console.log("data from database customers = " , data);
@@ -71,12 +73,15 @@ export const getAllCustomers = async () =>{
 
 export const getCustomer = async (id) =>{
     connect2sDB();
+    let customerScheme =  mongoose.Schema({}, { strict: false });
+
     let CustomerModel;
+
     try {
         CustomerModel = mongoose.model('customer'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        CustomerModel = mongoose.model('customer', {});
+        CustomerModel = mongoose.model('customer', customerScheme);
     }
     return await CustomerModel.findById(id);
 }
@@ -101,6 +106,8 @@ export async function createCustomer(customer) {
 
 export const updateCustomer = async (customer) => {
     connect2sDB();
+    let customerScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("customer = ", customer);
 
     let CustomerModel;
@@ -108,7 +115,7 @@ export const updateCustomer = async (customer) => {
         CustomerModel = mongoose.model('customer'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        CustomerModel = mongoose.model('customer', {});
+        CustomerModel = mongoose.model('customer', customerScheme);
     }
 
    
@@ -132,6 +139,7 @@ export const updateCustomer = async (customer) => {
 
 export const deleteCustomer = async(id) =>{
     connect2sDB();
+    let customerScheme =  mongoose.Schema({}, { strict: false });
 
     console.log("id = ", id)
 
@@ -140,7 +148,7 @@ export const deleteCustomer = async(id) =>{
         CustomerModel = mongoose.model('customers'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        CustomerModel = mongoose.model('customers', {});
+        CustomerModel = mongoose.model('customers', customerScheme);
     }
     const toDelete = await CustomerModel.findById(id);
     await toDelete.deleteOne();
@@ -156,11 +164,13 @@ export const getAllQueues = async () =>{
 
     connect2sDB();
     let QueueModel;
+    let queueScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         QueuesModel = mongoose.model('queue'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueModel = mongoose.models.queue || mongoose.model('queue', {});
+        QueueModel = mongoose.models.queue || mongoose.model('queue', queueScheme);
     }
     const data = await QueueModel.find();
     // console.log("data from database queue = " , data);
@@ -169,12 +179,15 @@ export const getAllQueues = async () =>{
 
 export const getQueue = async (id) =>{
     connect2sDB();
+    let queueScheme =  mongoose.Schema({}, { strict: false });
+
     let QueueModel;
+
     try {
         QueueModel = mongoose.model('queue'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueModel = mongoose.model('queue', {});
+        QueueModel = mongoose.model('queue',queueScheme);
     }
     return await QueueModel.findById(id);
 }
@@ -199,6 +212,8 @@ export async function createQueue(queue) {
 
 export const updateQueue = async (queue) => {
     connect2sDB();
+    let queueScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("queue = ", queue);
 
     let QueueModel;
@@ -206,7 +221,7 @@ export const updateQueue = async (queue) => {
         QueueModel = mongoose.model('queue'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueModel = mongoose.model('queue', {});
+        QueueModel = mongoose.model('queue', queueScheme);
     }
 
    
@@ -230,6 +245,7 @@ export const updateQueue = async (queue) => {
 
 export const deleteQueue = async(id) =>{
     connect2sDB();
+    let queueScheme =  mongoose.Schema({}, { strict: false });
 
     console.log("id = ", id)
 
@@ -238,7 +254,7 @@ export const deleteQueue = async(id) =>{
         QueueModel = mongoose.model('queue'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueModel = mongoose.model('queue', {});
+        QueueModel = mongoose.model('queue',queueScheme);
     }
     const toDelete = await QueueModel.findById(id);
     await toDelete.deleteOne();
@@ -254,11 +270,13 @@ export const getAllBusinesses = async () =>{
 
     connect2sDB();
     let BusinessModel;
+    let businessScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         BusinessModel = mongoose.model('business'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        BusinessModel = mongoose.models.business || mongoose.model('business', {});
+        BusinessModel = mongoose.model('business',businessScheme);
     }
     const data = await BusinessModel.find();
     // console.log("data from database business = " , data);
@@ -267,12 +285,14 @@ export const getAllBusinesses = async () =>{
 
 export const getBusiness = async (id) =>{
     connect2sDB();
+    let businessScheme =  mongoose.Schema({}, { strict: false });
+
     let BusinessModel;
     try {
         BusinessModel = mongoose.model('business'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        BusinessModel = mongoose.model('business', {});
+        BusinessModel = mongoose.model('business',businessScheme);
     }
     return await BusinessModel.findById(id);
 }
@@ -285,7 +305,7 @@ export async function createBusiness(business) {
 
     let BusinessModel;
     try {
-        BusinessModel = mongoose.model('business'); // Try to access the model
+        BusinessModel = mongoose.model('business'); // Try to access the model//TODO - why bussines not working
     } catch (err) {
         // If the model doesn't exist, create it
         BusinessModel = mongoose.model('business',businessScheme);
@@ -298,13 +318,14 @@ export async function createBusiness(business) {
 export const updateBusiness = async (business) => {
     connect2sDB();
     console.log("business = ", business);
+    let businessScheme =  mongoose.Schema({}, { strict: false });
 
     let BusinessModel;
     try {
         BusinessModel = mongoose.model('business'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        BusinessModel = mongoose.model('business', {});
+        BusinessModel = mongoose.model('business',businessScheme);
     }
 
    
@@ -328,6 +349,7 @@ export const updateBusiness = async (business) => {
 
 export const deleteBusiness = async(id) =>{
     connect2sDB();
+    let businessScheme =  mongoose.Schema({}, { strict: false });
 
     console.log("id = ", id)
 
@@ -336,7 +358,7 @@ export const deleteBusiness = async(id) =>{
         BusinessModel = mongoose.model('business'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        BusinessModel = mongoose.model('business', {});
+        BusinessModel = mongoose.model('business', businessScheme);
     }
     const toDelete = await BusinessModel.findById(id);
     await toDelete.deleteOne();
@@ -354,11 +376,13 @@ export const getAllWorkers = async () =>{
 
     connect2sDB();
     let WorkerModel;
+    let workerScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         WorkerModel = mongoose.model('worker'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        WorkerModel = mongoose.models.worker || mongoose.model('worker', {});
+        WorkerModel = mongoose.models.worker || mongoose.model('worker',workerScheme);
     }
     const data = await WorkerModel.find();
     // console.log("data from database worker = " , data);
@@ -367,12 +391,16 @@ export const getAllWorkers = async () =>{
 
 export const getWorker = async (id) =>{
     connect2sDB();
+    
+    let workerScheme =  mongoose.Schema({}, { strict: false });
+
     let WorkerModel;
+
     try {
         WorkerModel = mongoose.model('worker'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        WorkerModel = mongoose.model('worker', {});
+        WorkerModel = mongoose.model('worker',workerScheme);
     }
     return await BusinessModel.findById(id);
 }
@@ -397,6 +425,8 @@ export async function createWorker(worker) {
 
 export const updateWorker = async (worker) => {
     connect2sDB();
+    let workerScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("worker = ", worker);
 
     let WorkerModel;
@@ -404,7 +434,7 @@ export const updateWorker = async (worker) => {
         WorkerModel = mongoose.model('worker'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        WorkerModel = mongoose.model('worker', {});
+        WorkerModel = mongoose.model('worker', workerScheme);
     }
 
    
@@ -429,6 +459,8 @@ export const updateWorker = async (worker) => {
 export const deleteWorker = async(id) =>{
     connect2sDB();
 
+    let workerScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("id = ", id)
 
     let WorkerModel;
@@ -436,7 +468,7 @@ export const deleteWorker = async(id) =>{
         WorkerModel = mongoose.model('worker'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        WorkerModel = mongoose.model('worker', {});
+        WorkerModel = mongoose.model('worker', workerScheme);
     }
     const toDelete = await WorkerModel.findById(id);
     await toDelete.deleteOne();
@@ -453,11 +485,13 @@ export const getAllAdmin = async () =>{
 
     connect2sDB();
     let AdminModel;
+    let adminScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         AdminModel = mongoose.model('admin'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        AdminModel = mongoose.models.admin || mongoose.model('admin', {});
+        AdminModel = mongoose.models.admin || mongoose.model('admin', adminScheme);
     }
     const data = await AdminModel.find();
     // console.log("data from database admin = " , data);
@@ -466,12 +500,14 @@ export const getAllAdmin = async () =>{
 
 export const getAdmin = async (id) =>{
     connect2sDB();
+    let adminScheme =  mongoose.Schema({}, { strict: false });
+
     let AdminModel;
     try {
         AdminModel = mongoose.model('admin'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        AdminModel = mongoose.model('admin', {});
+        AdminModel = mongoose.model('admin',adminScheme);
     }
     return await AdminModel.findById(id);
 }
@@ -496,6 +532,8 @@ export async function createAdmin(admin) {
 
 export const updateAdmin = async (admin) => {
     connect2sDB();
+    let adminScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("admin = ", admin);
 
     let AdminModel;
@@ -503,7 +541,7 @@ export const updateAdmin = async (admin) => {
         AdminModel = mongoose.model('admin'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        AdminModel = mongoose.model('admin', {});
+        AdminModel = mongoose.model('admin', adminScheme);
     }
 
    
@@ -527,6 +565,7 @@ export const updateAdmin = async (admin) => {
 
 export const deleteAdmin = async(id) =>{
     connect2sDB();
+    let adminScheme =  mongoose.Schema({}, { strict: false });
 
     console.log("id = ", id)
 
@@ -535,7 +574,7 @@ export const deleteAdmin = async(id) =>{
         AdminModel = mongoose.model('admin'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        AdminModel = mongoose.model('admin', {});
+        AdminModel = mongoose.model('admin', adminScheme);
     }
     const toDelete = await AdminModel.findById(id);
     await toDelete.deleteOne();
@@ -550,12 +589,15 @@ export const deleteAdmin = async(id) =>{
 export const getAllQueueType = async () =>{
 
     connect2sDB();
+    
     let QueueTypeModel;
+    let queueTypeScheme =  mongoose.Schema({}, { strict: false });
+
     try {
         QueueTypeModel = mongoose.model('queueType'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueTypeModel = mongoose.models.queueType || mongoose.model('queueType', {});
+        QueueTypeModel = mongoose.models.queueType || mongoose.model('queueType', queueTypeScheme);
     }
     const data = await QueueTypeModel.find();
     // console.log("data from database queueType = " , data);
@@ -564,12 +606,14 @@ export const getAllQueueType = async () =>{
 
 export const getQueueType = async (id) =>{
     connect2sDB();
+    let queueTypeScheme =  mongoose.Schema({}, { strict: false });
+
     let QueueTypeModel;
     try {
         QueueTypeModel = mongoose.model('queueType'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueTypeModel = mongoose.model('queueType', {});
+        QueueTypeModel = mongoose.model('queueType', queueTypeScheme);
     }
     return await QueueTypeModel.findById(id);
 }
@@ -587,13 +631,15 @@ export async function createQueueType(queueType) {
         // If the model doesn't exist, create it
         QueueTypeModel = mongoose.model('queueType',queueTypeScheme);
     }
-    const newQueueTypeItem = new QueueTypeModel(admin);
+    const newQueueTypeItem = new QueueTypeModel(queueType);
     const newItem = await newQueueTypeItem.save();
     return newItem;
 }
 
 export const updateQueueType = async (queueType) => {
     connect2sDB();
+    let queueTypeScheme =  mongoose.Schema({}, { strict: false });
+
     console.log("queueType = ", queueType);
 
     let QueueTypeModel;
@@ -601,7 +647,7 @@ export const updateQueueType = async (queueType) => {
         QueueTypeModel = mongoose.model('queueType'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueTypeModel = mongoose.model('queueType', {});
+        QueueTypeModel = mongoose.model('queueType', queueTypeScheme);
     }
 
    
@@ -625,6 +671,7 @@ export const updateQueueType = async (queueType) => {
 
 export const deleteQueueType = async(id) =>{
     connect2sDB();
+    let queueTypeScheme =  mongoose.Schema({}, { strict: false });
 
     console.log("id = ", id)
 
@@ -633,7 +680,7 @@ export const deleteQueueType = async(id) =>{
         QueueTypeModel = mongoose.model('queueType'); // Try to access the model
     } catch (err) {
         // If the model doesn't exist, create it
-        QueueTypeModel = mongoose.model('queueType', {});
+        QueueTypeModel = mongoose.model('queueType', queueTypeScheme);
     }
     const toDelete = await QueueTypeModel.findById(id);
     await toDelete.deleteOne();

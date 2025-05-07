@@ -5,11 +5,13 @@ import { getAllBusinesses,createBusiness,updateBusiness,deleteBusiness } from "@
   {
   
   id:211394481,
-   business_name:"ido",
-   address:"nahum 7",
-   workers:"ido,shilo",
-   phone_number:"0528743754",
-    and more...
+   "businessName":"ido",
+   "address":"nahum 7",
+   "workers":"ido,shilo",
+   "phoneNumber":"0528743754",
+   "workingHours":"7",
+   "services":[],
+   "design": {"color": "purple", "image": 1}
 }
 
  */
