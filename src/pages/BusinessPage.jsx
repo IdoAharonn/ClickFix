@@ -1,8 +1,22 @@
 import { Box, Grid2 as Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 
 const BusinessPage = (props) => {
+
+    useEffect(()=>{
+
+        const getData = async () => {
+        const tempResponse = await fetch("/api/business");
+        let tempData = await tempResponse.json();
+        console.log("my data business = ", tempData);
+        
+
+        }
+        getData();
+
+
+    },[]);
 
     return (
         <>
