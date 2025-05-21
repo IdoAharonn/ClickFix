@@ -45,7 +45,7 @@ export default async function handler(req, res) {
   if (req.method === 'DELETE') {
 
     console.log("req.body ", req.body)
-    const data = deleteBusiness(req.body);
+    const data = deleteBusiness(req.body._id);
     res.status(200).json(data);
   }
 

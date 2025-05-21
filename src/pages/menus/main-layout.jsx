@@ -7,6 +7,9 @@ const MainLayout = ({children})=> (<>
 
     <h1>Links</h1>
     <ul>
+    <li>
+            <Link href="/BusinessPage">My Businesses</Link>
+        </li>
         <li>
             <Link href="/">Home Page</Link>
         </li>
