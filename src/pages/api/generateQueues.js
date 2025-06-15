@@ -1,80 +1,10 @@
-// import { getAllQueue,createQueue,updateQueue,deleteQueue, getAllQueues, getBusiness } from "@/server/db/db-services-clickFix";
-
-// //http://localhost:3000/api/generateQueues
-
-// export default async function handler(req, res) {
-// //   if (req.method === 'GET') {
-
-// //     const data = await getAllQueues();
-// //     // console.log("data - " , data);
-
-// //     res.status(200).json(data);
-// //   }
-
-//   if (req.method === 'POST') {
-//     // {_id: "businessId", month : 0-11}
-//     // const data = await createQueue(req.body);
-//     const {_id, month} = req.body;
-//     console.log("_id = " , _id);
-
-//     const business = getBusiness();
-//     console.log("business = ", business);
-
-
-//     //do the alogrith
-//     const monthString = null;//give the value by the number (3 letters)
-//     //
-//     business["queues"][monthString] = [];
-
-//     //generate all the available queues 
-
-//     res.status(200).json(data);
-//   }
-
-// //   if (req.method === 'PUT') {
-
-// //     const data = await updateQueue(req.body);
-
-// //     res.status(200).json(data);
-// //   }
-// //   if (req.method === 'DELETE') {
-
-// //     console.log("req.body ", req.body)
-// //     const data = deleteQueue(req.body);
-// //     res.status(200).json(data);
-// //   }
-
-// }
-// // export default function handler(req, res) {
-
-
-// //     if (req.method === 'GET') {
-
-// //         console.log("hello ido hagever");
-
-
-// //        // const data = await getAllBookmarks();
-// //         // console.log("data - " , data);
-
-// //         res.status(200).json(
-// //             {
-// //                 id:211394481,
-// //                 queueType:"haircut",
-// //                 workerId:7221,
-// //                 custumerId:211394481,
-// //                 date:14.07
-
-// //             }
-// //         );
-// //     }
-// // }
 
 import {
-    getBusiness,
+    getBusiness, updateBusiness,
     // אם תרצה, תייבא גם את הפונקציות הבאות:
     // getAllQueue, createQueue, updateQueue, deleteQueue, getAllQueues
 } from "@/server/db/db-services-clickFix";
-
+import mongoose from "mongoose";
 // פונקציות עזר
 function getMonthName(monthIndex) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -101,6 +31,7 @@ function generateTimeSlotsForDay(date, start, end) {
 
     for (let time = startMin; time + 30 <= endMin; time += 30) {
         slots.push({
+            _id: new mongoose.Types.ObjectId(), //
             date: date.toISOString().split('T')[0], // yyyy-mm-dd
             time: minutesToTimeString(time),
             available: true,
@@ -114,20 +45,20 @@ function generateTimeSlotsForDay(date, start, end) {
 function generateTimeSlotsForDay2(dateStr, start, end) {
     // const startMin = timeStringToMinutes(start);
     const date = new Date(dateStr);
-    console.log("data!!",date, start, end )
+    console.log("data!!", date, start, end)
     // const endMin = timeStringToMinutes(end);
     const slots = [];
 
 
-
-   // for (let time = startMin; time + 30 <= endMin; time += 30) {
-   while (start < end){
+    // for (let time = startMin; time + 30 <= endMin; time += 30) {
+    while (start < end) {
         let dateFrom = new Date(date);
-       
-        dateFrom.setHours(start); 
+
+        dateFrom.setHours(start);
         let dateTo = new Date(dateFrom);
         dateTo.setMinutes(30);
         slots.push({
+            _id: new mongoose.Types.ObjectId(),
             from: dateFrom,
             to: dateTo,
             available: true,
@@ -146,7 +77,7 @@ function generateTimeSlotsForDay2(dateStr, start, end) {
         });
     }
     console.log("slots = ", slots);
-    
+
     return slots;
 }
 
@@ -240,10 +171,7 @@ function generateQueues2(business, month) {
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-            const {
-                _id,
-                month
-            } = req.body;
+            const {_id,month} = req.body;
             console.log("Request body:", req.body);
 
             const business = await getBusiness(_id);
@@ -256,9 +184,13 @@ export default async function handler(req, res) {
             }
 
             const generatedQueues = generateQueues2(business, month);
+            const businessObj = business.toObject();
 
+
+
+            businessObj.queues = businessObj.queues ? businessObj.queues.concat(generatedQueues): generatedQueues;
             console.log("Generated queues count:", generatedQueues.length);
-
+            await updateBusiness(businessObj);
             // אם תרצה לשמור למסד הנתונים, תוכל לעשות כאן:
             // await updateQueue({ _id, queues: business.queues });
 

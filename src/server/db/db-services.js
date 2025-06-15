@@ -5,7 +5,7 @@ import {mockBookmarks} from "../../pages/bookmark-app/mock-data-bookmarks";
 //general configuration
 const DATABASE_NAME = "BookmarksApp";
 // const MONGO_URI = "mongodb://lingar:12345678@localhost:27017/" + DATABASE_NAME + "?authSource=admin";
-const MONGO_URI = "mongodb://localhost:27017/" + DATABASE_NAME + "?authSource=admin";
+const MONGO_URI = "mongodb://lingar:12345678@localhost:27017/" + DATABASE_NAME + "?authSource=admin";
 
 
 const BookmarkSchemaShape = {
