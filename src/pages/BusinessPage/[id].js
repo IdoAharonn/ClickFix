@@ -217,6 +217,7 @@ export async function getServerSideProps(context) {
   const { id } = context.params;
 
   try {
+    //look here
     const res = await axios.get(`http://localhost:3000/api/business/${id}`);
     return {
       props: {

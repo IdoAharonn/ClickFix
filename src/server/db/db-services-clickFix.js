@@ -317,7 +317,7 @@ export async function createBusiness(business) {
 
 export const updateBusiness = async (business) => {
     connect2sDB();
-    console.log("business = ", business);
+    console.log("business2 = ", business);
     let businessScheme =  mongoose.Schema({}, { strict: false });
 
     let BusinessModel;

@@ -1,76 +1,8 @@
-// import { getAllQueue,createQueue,updateQueue,deleteQueue, getAllQueues, getBusiness } from "@/server/db/db-services-clickFix";
 
-// //http://localhost:3000/api/generateQueues
-
-// export default async function handler(req, res) {
-// //   if (req.method === 'GET') {
-
-// //     const data = await getAllQueues();
-// //     // console.log("data - " , data);
-
-// //     res.status(200).json(data);
-// //   }
-
-//   if (req.method === 'POST') {
-//     // {_id: "businessId", month : 0-11}
-//     // const data = await createQueue(req.body);
-//     const {_id, month} = req.body;
-//     console.log("_id = " , _id);
-
-//     const business = getBusiness();
-//     console.log("business = ", business);
-
-
-//     //do the alogrith
-//     const monthString = null;//give the value by the number (3 letters)
-//     //
-//     business["queues"][monthString] = [];
-
-//     //generate all the available queues 
-
-//     res.status(200).json(data);
-//   }
-
-// //   if (req.method === 'PUT') {
-
-// //     const data = await updateQueue(req.body);
-
-// //     res.status(200).json(data);
-// //   }
-// //   if (req.method === 'DELETE') {
-
-// //     console.log("req.body ", req.body)
-// //     const data = deleteQueue(req.body);
-// //     res.status(200).json(data);
-// //   }
-
-// }
-// // export default function handler(req, res) {
-
-
-// //     if (req.method === 'GET') {
-
-// //         console.log("hello ido hagever");
-
-
-// //        // const data = await getAllBookmarks();
-// //         // console.log("data - " , data);
-
-// //         res.status(200).json(
-// //             {
-// //                 id:211394481,
-// //                 queueType:"haircut",
-// //                 workerId:7221,
-// //                 custumerId:211394481,
-// //                 date:14.07
-
-// //             }
-// //         );
-// //     }
-// // }
 
 import {
     getBusiness,
+    updateBusiness,
     // אם תרצה, תייבא גם את הפונקציות הבאות:
     // getAllQueue, createQueue, updateQueue, deleteQueue, getAllQueues
 } from "@/server/db/db-services-clickFix";
@@ -112,19 +44,24 @@ function generateTimeSlotsForDay(date, start, end) {
 }
 
 function generateTimeSlotsForDay2(dateStr, start, end) {
+
+    //adding hours for local date
+    start += 2;
+    end += 2;
+
     // const startMin = timeStringToMinutes(start);
     const date = new Date(dateStr);
-    console.log("data!!",date, start, end )
+    console.log("data!!", date, start, end)
     // const endMin = timeStringToMinutes(end);
     const slots = [];
 
 
 
-   // for (let time = startMin; time + 30 <= endMin; time += 30) {
-   while (start < end){
+    // for (let time = startMin; time + 30 <= endMin; time += 30) {
+    while (start < end) {
         let dateFrom = new Date(date);
-       
-        dateFrom.setHours(start); 
+
+        dateFrom.setHours(start);
         let dateTo = new Date(dateFrom);
         dateTo.setMinutes(30);
         slots.push({
@@ -147,52 +84,53 @@ function generateTimeSlotsForDay2(dateStr, start, end) {
     }
     console.log("slots = ", slots);
     
+
     return slots;
 }
 
-function generateQueues(business, month) {
-    const year = new Date().getFullYear();
-    const monthString = getMonthName(month);
+// function generateQueues(business, month) {
+//     const year = new Date().getFullYear();
+//     const monthString = getMonthName(month);
 
-    // ודא שbusiness.queues מוגדר ואובייקט
-    if (!business.queues || typeof business.queues !== 'object') {
-        business.queues = {};
-    }
+//     // ודא שbusiness.queues מוגדר ואובייקט
+//     if (!business.queues || typeof business.queues !== 'object') {
+//         business.queues = {};
+//     }
 
-    // אתחול מערך החודשים
-    business.queues[monthString] = [];
+//     // אתחול מערך החודשים
+//     business.queues[monthString] = [];
 
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+//     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // ודא שbusiness.openingHours מוגדר ואובייקט
-    const openingHours = (business.openingHours && typeof business.openingHours === 'object') ?
-        business.openingHours :
-        {};
+//     // ודא שbusiness.openingHours מוגדר ואובייקט
+//     const openingHours = (business.openingHours && typeof business.openingHours === 'object') ?
+//         business.openingHours : {};
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const dayOfWeek = date.getDay(); // 0 = ראשון, 6 = שבת
+//     for (let day = 1; day <= daysInMonth; day++) {
+//         const date = new Date(year, month, day);
+//         const dayOfWeek = date.getDay(); // 0 = ראשון, 6 = שבת
 
-        // כלל: רק ראשון עד חמישי (0 עד 4)
-        if (dayOfWeek === 5 || dayOfWeek === 6) {
-            continue; // מדלגים על שישי ושבת
-        }
+//         // כלל: רק ראשון עד חמישי (0 עד 4)
+//         if (dayOfWeek === 5 || dayOfWeek === 6) {
+//             continue; // מדלגים על שישי ושבת
+//         }
 
-        const hours = openingHours[dayOfWeek];
+//         const hours = openingHours[dayOfWeek];
 
-        //   if (hours && hours.start && hours.end) {
-        // const slots = generateTimeSlotsForDay(date, hours.start, hours.end);
-        const slots = generateTimeSlotsForDay2(date, openingHours.from, openingHours.to);
+//         //   if (hours && hours.start && hours.end) {
+//         // const slots = generateTimeSlotsForDay(date, hours.start, hours.end);
+//         const slots = generateTimeSlotsForDay2(date, openingHours.from, openingHours.to);
 
-        business.queues[monthString].push(...slots);
-        //   }
-    }
+//         business.queues[monthString].push(...slots);
+//         //   }
+//     }
 
-    return business.queues[monthString];
-}
+//     return business.queues[monthString];
+// }
 
 
-function generateQueues2(business, month) {
+function generateQueues2(businessCopy, month) {
+    const business = businessCopy.toObject();
     const year = new Date().getFullYear();
     const monthString = getMonthName(month);
 
@@ -210,8 +148,7 @@ function generateQueues2(business, month) {
 
     // ודא שbusiness.openingHours מוגדר ואובייקט
     const openingHours = (business.openingHours && typeof business.openingHours === 'object') ?
-        business.openingHours :
-        {};
+        business.openingHours : {};
 
     for (let day = 1; day <= daysInMonth; day++) {
         const date = new Date(year, month, day);
@@ -229,10 +166,15 @@ function generateQueues2(business, month) {
         const slots = generateTimeSlotsForDay2(date, business.workingHours.from, business.workingHours.to);
 
         business.queues[monthString].push(...slots);
-        //   }
+        
     }
+    business["x"]=10;
+    // business.set("y", 20);
+    console.log("business!! ", business);
+    
+       updateBusiness(business);
 
-    return business.queues[monthString];
+    return business.queues;
 }
 
 
@@ -261,7 +203,7 @@ export default async function handler(req, res) {
 
             // אם תרצה לשמור למסד הנתונים, תוכל לעשות כאן:
             // await updateQueue({ _id, queues: business.queues });
-
+            updateBusiness(business);
             res.status(200).json({
                 success: true,
                 queues: generatedQueues
