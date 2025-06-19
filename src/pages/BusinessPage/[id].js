@@ -39,7 +39,7 @@
 // pages/BusinessPage/[id].js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Box, Typography, Button, Snackbar, Alert } from '@mui/material';
+import {TextField, Box, Typography, Button, Snackbar, Alert, TextareaAutosize} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 
@@ -55,6 +55,7 @@ const BusinessDetails = ({ business }) => {
       from: business.workingHours?.from || '',
       to: business.workingHours?.to || '',
     },
+    description: business.description || '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -164,6 +165,19 @@ const handleDelete = async () => {
         fullWidth
         margin="normal"
       />
+
+      <TextField
+          label="קצת על העסק"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          multiline
+          rows={4}
+
+      />
+
 
       {/* <Button
         variant="contained"
