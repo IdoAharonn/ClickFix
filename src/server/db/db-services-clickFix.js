@@ -2,7 +2,7 @@ import mongoose from "mongoose";//the item that communicate with DB
 
 
 const DATABASE_NAME = "ClickFix";
-const MONGO_URI = "mongodb://localhost:27017/" + DATABASE_NAME + "?authSource=admin";
+const MONGO_URI = "mongodb://lingar:12345678@localhost:27017/" + DATABASE_NAME + "?authSource=admin";
 
 let cached = global.mongoose || {conn: null, promise: null};
 
